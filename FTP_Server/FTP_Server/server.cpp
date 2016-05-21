@@ -1,4 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS
+
+#define _WINSOCK_DEPRECATED_NO_WARNINGS
 #include<stdio.h>
 #include<stdlib.h>
 #include<winsock2.h>
@@ -163,7 +165,7 @@ static bool Handle_connect(int sockSrv)
 		}
 	}
 	WaitForMultipleObjects(THREAD_NUM, handle, true, INFINITE);
-
+	return true;
 }
 
 int main()
@@ -188,7 +190,7 @@ int main()
 	SOCKET sockSrv = socket(AF_INET, SOCK_STREAM, 0);   //AF_INET tcpipµÄÐ­Òé
 	SOCKADDR_IN addrSrv;
 
-	addrSrv.sin_addr.S_un.S_addr = inet_addr("127.0.0.1");
+	addrSrv.sin_addr.S_un.S_addr = inet_addr("172.16.89.39");
 	addrSrv.sin_family = AF_INET;
 	addrSrv.sin_port = htons(1111);  //ftp server
 

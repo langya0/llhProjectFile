@@ -154,23 +154,22 @@ int main(int argc, const char * argv[]) {
     char text5[] = "[\n	 {\n	 \"precision\": \"zip\",\n	 \"Latitude\":  37.7668,\n	 \"Longitude\": -122.3959,\n	 \"Address\":   \"\",\n	 \"City\":      \"SAN FRANCISCO\",\n	 \"State\":     \"CA\",\n	 \"Zip\":       \"94107\",\n	 \"Country\":   \"US\"\n	 },\n	 {\n	 \"precision\": \"zip\",\n	 \"Latitude\":  37.371991,\n	 \"Longitude\": -122.026020,\n	 \"Address\":   \"\",\n	 \"City\":      \"SUNNYVALE\",\n	 \"State\":     \"CA\",\n	 \"Zip\":       \"94085\",\n	 \"Country\":   \"US\"\n	 }\n	 ]";
 
     /* Process each json textblock by parsing, then rebuilding: */
-    //doit(text1);
- //   doit(text2);
-    //Test_cJSON();
-  /*  doit(text3);
-    doit(text4);
-    doit(text5);
-*/
-    /* Parse standard testfiles: */
-    /*	dofile("../../tests/test1"); */
-    /*	dofile("../../tests/test2"); */
-      
-    	dofile("test.txt"); 
+    doit(text1);
+    //doit(text2);
+    //doit(text3);
+    //doit(text4);
+    //doit(text5);
 
-    /*	dofile("../../tests/test4"); */
-    /*	dofile("../../tests/test5"); */
+
+    ////Parse standard testfiles: 
+    //dofile("../../tests/test1"); 
+    //dofile("../../tests/test2"); 
+    //dofile("../../tests/test4"); 
+    //dofile("../../tests/test5"); 
+
+    //Test_cJSON();
 
     /* Now some samplecode for building objects concisely: */
-  //  create_objects();
+ //   create_objects();
     return 0;
 }

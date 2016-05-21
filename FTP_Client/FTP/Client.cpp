@@ -1,5 +1,6 @@
 ////客户端
 //
+#define _WINSOCK_DEPRECATED_NO_WARNINGS
 #define	_CRT_SECURE_NO_WARNINGS
 #include<stdio.h>
 #include<stdlib.h>
@@ -28,15 +29,15 @@ int main()
 	}
 
 	SOCKET socketClient = socket(AF_INET, SOCK_STREAM, 0);   //AF_INET tcpip的协议
-	//初始化连接
+															 //初始化连接
 
 	SOCKADDR_IN addrSrv;  //服务器的地址
-	addrSrv.sin_addr.S_un.S_addr = inet_addr("127.0.0.1");
+	addrSrv.sin_addr.S_un.S_addr = inet_addr("172.16.89.39");
 	addrSrv.sin_family = AF_INET;  //使用的是TCP/IP 
 	addrSrv.sin_port = htons(1111);  //转为网络序  设置端口号
 
 
-	//连接到服务器 使用SOCKET对象连接服务器,送入服务器的地址信息  强转
+									 //连接到服务器 使用SOCKET对象连接服务器,送入服务器的地址信息  强转
 	if (connect(socketClient, (SOCKADDR*)&addrSrv, sizeof(SOCKADDR)) < 0)  //协议参数  套接字参数
 	{
 		printf("connction faild!");
@@ -72,11 +73,11 @@ int main()
 
 
 	//选择下载文件名
-	char filename[BUFSIZ] = "test.txt";
+	char filename[BUFSIZ] = "tt1.txt";
 
 	send(socketClient, filename, strlen(filename) + 1, 0);
 	//接收并且保存该文件到本地目录
-	FILE* fp = fopen("E:\\test.txt", "wb");
+	FILE* fp = fopen("E:\\tt1.txt", "wb");
 
 	if (!fp)
 		return 0;
