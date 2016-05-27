@@ -1,7 +1,12 @@
-#include"Miterator_traits.h"
-#include"M__type_traits.h"
+#include"Mstl_vector.h"
+	__interface test
+	{
+		int a() {}
+	};
 int main()
 {
-	Test_iterator_trait();
-	Test_type_trait();
+
+	testVector();
+	getchar();
+		return 0;
 }

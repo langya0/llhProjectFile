@@ -1,7 +1,7 @@
 #pragma once
 #include"Mstl_config.h"
-namespace __STL
-{
+
+__STLBEGIN
 	//为了类型判别区分而产生的两个空结构体。用于策略选择
 	struct __true_type
 	{
@@ -132,9 +132,9 @@ namespace __STL
 		typedef __false_type has_traivial_destructor;
 		typedef __false_type is_POD;
 	};
-}
+__STLEND
 
-using namespace __STL;
+using namespace stl;
 template<class T>
 class Test_type_traits
 {

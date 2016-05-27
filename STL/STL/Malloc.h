@@ -10,7 +10,7 @@
 
 //注：内存不足处理例程是客端的责任，，设定内存不足处理例程 也是其职责。内存不足处理例程有特定模式
 template<int inst>
-class __malloc_alloc_template
+class __Malloc_alloc_template
 {
 private:
 	static void *oom_malloc(size_t);
@@ -44,11 +44,9 @@ public:
 		return (old);
 	}
 
-	template<int inst>
-	void(*__malloc_alloc_template<inst>::__malloc_alloc_oom_handler)() = 0;
 	
 	template<int inst>
-	void * __malloc_alloc_template<inst>::oom_malloc(size_t n)
+	void *oom_malloc(size_t n)
 	{
 		void(*my_malloc_handler)();
 		void* result;
@@ -86,9 +84,13 @@ public:
 		}
 	}
 };
-typedef __malloc_alloc_template<0> alloc;
+template<int inst>
+void(*__Malloc_alloc_template<inst>::__malloc_alloc_oom_handler)() = 0;
+
+
+typedef __Malloc_alloc_template<0> Alloc;
 #else
 
 
-typedef __default_alloc_template alloc;
+typedef __default_alloc_template Alloc;
 #endif
