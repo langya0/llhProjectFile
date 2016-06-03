@@ -297,7 +297,7 @@ void handler()
 {
 	cout << "here in  handler!\n"<<endl;
 }
-void test()
+void test()   
 {
 //	stl::Alloc::set_malloc_handler(handler);
 	void *arr[21] = {0};
