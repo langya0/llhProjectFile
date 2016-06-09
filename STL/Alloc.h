@@ -1,11 +1,12 @@
 #pragma once
-
 #include "Config.h"
+#include "Trace.h"
+
 __STLBEGIN
 #include <memory.h>
 #include <stdlib.h>
 
-#define __THROW_BAD_ALLOC throw std::bad_alloc()
+#define __THROW_BAD_ALLOC throw 
 
 class __MallocAllocTemplate
 {
@@ -16,7 +17,7 @@ private:
 public:
 	static void *Allocate(size_t n)
 	{
-		___TRACE("__MallocAllocTemplate to get  n = %u\n",n);
+		__TRACE("__MallocAllocTemplate to get  n = %u\n",n);
 		void *result = malloc(n);
 		if (0 == result)
 		{
@@ -36,14 +37,15 @@ public:
 
 	static void Deallocate(void *p,size_t n)
 	{
-		___TRACE("一级空间配置器释放 p= %p n = %u\n",p,n);
-		free(p);
+		__TRACE("一级空间配置器释放 p= %p n = %u\n",p,n);
+		if(p)
+			free(p);
 	}
 
 	//
 	static void(*set_malloc_handler(void(*f)()))()
 	{
-		___TRACE("一级空间配置器,set Handler f = %p\n",f);
+		__TRACE("一级空间配置器,set Handler f = %p\n",f);
 		void(*old)() = __malloc_alloc_oom_handler;
 		__malloc_alloc_oom_handler = f;
 		return (old);
@@ -53,7 +55,7 @@ public:
 
 void *__MallocAllocTemplate::OomMalloc(size_t n)
 {
-	___TRACE("一级空间配置器,不足进入Oo中n = %u\n",n);
+	__TRACE("一级空间配置器,不足进入Oo中n = %u\n",n);
 	void(*my_malloc_handler)();
 	void* result;
 	for (;;)
@@ -90,7 +92,9 @@ void* __MallocAllocTemplate::OomRealloc(void* p, size_t n)
 }
 void(*__MallocAllocTemplate::__malloc_alloc_oom_handler)() = 0;
 
-typedef __MallocAllocTemplate MallocAlloc;///////////////////////
+
+typedef __MallocAllocTemplate MallocAlloc;	//////这里放在#ifdef前边是因为二级空间配置器中还需要调用一级空间配置器
+/////////////////////////////////////////根据是否配置__USE_ALLOC选择使用一级还是二级空间配置器
 
 #ifdef __USE_ALLOC
 typedef MallocAlloc Alloc;
@@ -133,7 +137,7 @@ public:
 	static void* Allocate(size_t n)
 	{
 		void * ret = 0;
-		___TRACE("二级空间配置器申请n = %u\n",n);
+		__TRACE("二级空间配置器申请n = %u\n",n);
 		if(n>_MAX_BYTES)
 			ret = MallocAlloc::Allocate(n);
 
@@ -152,7 +156,11 @@ public:
 
 	static void Deallocate(void* p, size_t n)
 	{
-		___TRACE("二级空间配置器删除p = %p,n = %d\n",p,n);
+		if(!p)
+		{
+			return;
+		}
+		__TRACE("二级空间配置器删除p = %p,n = %d\n",p,n);
 		if (n > (size_t) _MAX_BYTES)
 			MallocAlloc::Deallocate(p, n);
 		else
@@ -166,7 +174,7 @@ public:
 
 	static void *Reallocate(void* p,size_t __old_sz,size_t __new_sz)
 	{
-		___TRACE("二级空间配置器重新申请p = %p,new_sz = %d\n",p,__new_sz);
+		__TRACE("二级空间配置器重新申请p = %p,new_sz = %d\n",p,__new_sz);
 	    void* __result;
 	    size_t __copy_sz;
 
@@ -188,7 +196,7 @@ public:
 protected:
 	static void *_Refill(size_t n)
 	{
-		___TRACE("二级空间配置器自由链表填充n = %u\n",n);
+		__TRACE("二级空间配置器自由链表填充n = %u\n",n);
 
 		size_t nobjs = 20;
 		void * ret;
@@ -209,21 +217,22 @@ protected:
 		return ret; 
 	}
 
-	static char * _ChunkAlloc(size_t n,size_t nobjs)
+	/////////////这里的nobjs使用&，，内部需要复用逻辑，可能改变之
+	static char * _ChunkAlloc(size_t n,size_t &nobjs)
 	{
 		size_t totalBytes = n*nobjs;
 		size_t bytesLeft = _end_free - _start_free;
 
 		if(bytesLeft>=totalBytes)
 		{
-			___TRACE("二级空间配置器内存池填充n = %u,nobjs = %d\n",n,nobjs);
+			__TRACE("二级空间配置器内存池填充n = %u,nobjs = %d\n",n,nobjs);
 			_start_free += n*nobjs;
 			return _start_free;
 		}
 		else if(bytesLeft>=n)
 		{
 			nobjs = (_end_free- _start_free)/n;
-			___TRACE("二级空间配置器内存池填充n = %u,nobjs = %d\n",n,nobjs);
+			__TRACE("二级空间配置器内存池填充n = %u,nobjs = %d\n",n,nobjs);
 			_start_free +=n*nobjs;
 			return _start_free;
 		}
@@ -232,19 +241,25 @@ protected:
 		_Obj*  volatile * __my_free_list = _freeList + _FreeListIndex(bytesLeft);
 		if(_start_free)
 		{
-			___TRACE("二级空间配置器剩余bytesLeft = %u\n",bytesLeft);
-			((_Obj*)_start_free)->_freeListLink=*__my_free_list;
-			*__my_free_list = (_Obj*)_start_free;
+			__TRACE("二级空间配置器剩余bytesLeft = %u\n",bytesLeft);
+			if(bytesLeft>0)
+			{
+
+				((_Obj*)_start_free)->_freeListLink=*__my_free_list;
+				*__my_free_list = (_Obj*)_start_free;
+			}
 		}
 
 		size_t bytesToGet = nobjs*n*2+(_heap_size>>4); 
 
+__TRACE("bytesToGet = %u\n",bytesToGet);
 		//malloc
 		_start_free = (char*)malloc(bytesToGet);
+__TRACE("bytesToGet = %u\n",bytesToGet);
 
 		if(!_start_free)
 		{
-			___TRACE("二级空间配置器malloc失败，在后续链表查找n = %d\n",n);
+			__TRACE("二级空间配置器malloc失败，在后续链表查找n = %d\n",n);
 			for(size_t i = n + _ALIGN;i < _MAX_BYTES;i+=_ALIGN)
 			{
 				_Obj* volatile * cur = _freeList+_FreeListIndex(i); 
@@ -257,6 +272,8 @@ protected:
 					return _ChunkAlloc(n,nobjs);
 				}
 			}
+
+			__TRACE("二级空间配置器：后续链表查找失败，转接一级配置，借用handler机制终止程序或者得到空间n = %d\n",n);
 			_start_free = (char*)MallocAlloc::Allocate(n);
 			return _ChunkAlloc(n,nobjs);
 		}
@@ -295,13 +312,13 @@ __STLEND
 
 void handler()
 {
-	cout << "here in  handler!\n"<<endl;
+	__TRACE("here in  handler!\n");
 }
-void test()   
+void testAlloc()   
 {
 //	stl::Alloc::set_malloc_handler(handler);
 	void *arr[21] = {0};
-	___TRACE("Clint to Get size = %u\n",5);
+	__TRACE("Clint to Get size = %u\n",5);
 
 	// for(size_t i =0;i < 21;++i)
 	// 	arr[i] = stl::Alloc::Allocate(5);

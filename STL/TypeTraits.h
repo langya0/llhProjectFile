@@ -1,8 +1,12 @@
 #pragma once
+#include <typeinfo>
 #include "Config.h"
+#include "Trace.h"
+
 __STLBEGIN
 
 #include <typeinfo>
+
 struct __true_type
 {};
 struct __false_type
@@ -119,20 +123,20 @@ struct __TypeTraits<T*>
 	typedef __false_type has_traivial_destructor;
 	typedef __false_type is_POD;
 };
+
 __STLEND
 
 class Test_type_traits
 {
 public:
-	typedef __true_type has_traivial_default_constructor;
-	typedef __true_type has_traivial_copy_constructor;
-	typedef __true_type has_traivial_assignment_operator;
-	typedef __true_type has_traivial_destructor;
-	typedef __true_type is_POD;
+	typedef stl::__true_type has_traivial_default_constructor;
+	typedef stl::__true_type has_traivial_copy_constructor;
+	typedef stl::__true_type has_traivial_assignment_operator;
+	typedef stl::__true_type has_traivial_destructor;
+	typedef stl::__true_type is_POD;
 };
-
-void test()
+void testTypeTraits()
 {
 	typedef typename Test_type_traits::is_POD typ;
-	cout << typeid(typ).name()<<endl;
+	__TRACE("%s\n",typeid(typ).name());
 }

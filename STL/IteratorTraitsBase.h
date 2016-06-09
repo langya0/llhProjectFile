@@ -1,20 +1,22 @@
 #pragma once
-#include"Config.h"
+#include "Config.h"
+#include "Trace.h"
 typedef int Ptrdiff_t;
+
 __STLBEGIN
 
-struct Input_iterator_tag
+struct InputIteratorTag
 {};
-struct Output_iterator_tag
+struct OutputIteratorTag
 {};
-struct Forward_iterator_tag :public Input_iterator_tag
+struct ForwardIteratorTag :public InputIteratorTag
 {};
-struct Bidirectional_iterator_tag :public Forward_iterator_tag
+struct BidirectionalIteratorTag :public ForwardIteratorTag
 {};
-struct Random_iterator_tag :public Bidirectional_iterator_tag
+struct RandomIteratorTag :public BidirectionalIteratorTag
 {};
 
-template<class Category, class T, class Distance = ptrdiff_t,
+template<class Category, class T, class Distance = Ptrdiff_t,
 class Ptr = T*, class Ref = T&>
 struct Iterator
 {
@@ -39,9 +41,9 @@ struct IteratorTraits
 template < class T>
 struct IteratorTraits<T*>
 {
-	typedef Random_iterator_tag IteratorCategory;
+	typedef RandomIteratorTag IteratorCategory;
 	typedef T ValueType;
-	typedef ptrdiff_t DifferenceType;
+	typedef Ptrdiff_t DifferenceType;
 	typedef T* Pointer;
 	typedef T& Reference;
 };
@@ -49,9 +51,9 @@ struct IteratorTraits<T*>
 template < class T>
 struct IteratorTraits<const T*>
 {
-	typedef Random_iterator_tag IteratorCategory;
+	typedef RandomIteratorTag IteratorCategory;
 	typedef T ValueType;
-	typedef ptrdiff_t DifferenceType;
+	typedef Ptrdiff_t DifferenceType;
 	typedef const T* Pointer;
 	typedef const T& Reference;
 };
@@ -77,16 +79,16 @@ __STLEND
 
 struct testIteratorTraits
 {
-	typedef stl::Input_iterator_tag IteratorCategory;
+	typedef stl::InputIteratorTag IteratorCategory;
 	typedef int ValueType;
-	typedef stl::Random_iterator_tag Random_iterator_tag;
+	typedef stl::RandomIteratorTag RandomIteratorTag;
 	typedef ValueType* Pointer;
 	typedef Ptrdiff_t DifferenceType;
 	typedef ValueType& Reference;
 };
-
-void test()
+#include <typeinfo>
+void testIterator()
 {
 	testIteratorTraits t;
-	cout << typeid((stl::ValueType(t))).name()<<endl;
+	__TRACE("%s\n",typeid(stl::ValueType(t)).name());
 }

@@ -1,13 +1,19 @@
-OBJS=main.o
-TARGET=test
-$(TARGET):$(OBJS)
-	@g++ -o $(TARGET) $(OBJS) 
+# OBJS=test.o
 
-$(OBJS):main.cpp
-	@g++ -o $(OBJS) -c main.cpp -g
+INCLUDE=afxstd.h Alloc.h Config.h Construct.h IteratorTraitsBase.h IteratorTraits.h Trace.h TypeTraits.h Vector.h\
+ Uninitialized.h
+TARGET=test
+
+# $(TARGET):$(OBJS)
+# 	@g++ $(OBJS) -o $(TARGET)
+
+$(TARGET):test.cpp $(INCLUDE)
+	@g++ test.cpp $(INCLUDE) -o $(TARGET)
 	@echo "successful!"
+
+
 clean:
-	@rm -f $(TARGET) $(OBJS)
+	@rm -rf $(TARGET) $(OBJS)
 
 run:
 	@./$(TARGET)
