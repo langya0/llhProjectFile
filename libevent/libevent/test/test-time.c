@@ -81,4 +81,3 @@ main (int argc, char **argv)
 
 	return (called < NEVENT);
 }
-

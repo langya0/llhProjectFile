@@ -23,27 +23,27 @@ inline void _Destroy(_Tp* __pointer) {
 
 ///自定义类型，对迭代的每个对象进行显示戏够
 template <class _ForwardIterator>
-void __destroy_aux(_ForwardIterator __first, _ForwardIterator __last, __false_type)
+void __Destroy_aux(_ForwardIterator __first, _ForwardIterator __last, __false_type)
 {
   for ( ; __first != __last; ++__first)
-    destroy(&*__first);
+    _Destroy(&*__first);
 }
 
 template <class _ForwardIterator> 
-inline void __destroy_aux(_ForwardIterator, _ForwardIterator, __true_type) {}
+inline void __Destroy_aux(_ForwardIterator, _ForwardIterator, __true_type) {}
 
 /////类型萃取，便于重载策略
 template <class _ForwardIterator, class _Tp>
-inline void __destroy(_ForwardIterator __first, _ForwardIterator __last, _Tp*)
+inline void __Destroy(_ForwardIterator __first, _ForwardIterator __last, _Tp*)
 {
   typedef typename __TypeTraits<_Tp>::has_trivial_destructor _Trivial_destructor;
-  __destroy_aux(__first, __last, _Trivial_destructor());    
+  __Destroy_aux(__first, __last, _Trivial_destructor());    
 }
 
 /////////////////////valuetype函数获取类型----类型推演。进行萃取
 template <class _ForwardIterator>
 inline void _Destroy(_ForwardIterator __first, _ForwardIterator __last) {
-  __destroy(__first, __last, ValueTpye(__first));
+  __Destroy(__first, __last, ValueTpye(__first));
 }
 
 inline void _Destroy(char*, char*) {}

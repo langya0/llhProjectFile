@@ -1,6 +1,23 @@
 #pragma once
+
 #include "Config.h"
 #include "Trace.h"
+
+#include "Threads.h"
+
+#ifdef __STL_THREADS
+#define __NODE_ALLOCATOR_THREADS true  //用于二级空间配置器翻非类型模板参数
+
+#define __NODE_ALLOCATOR_LOCK \
+        { if (threads) _S_node_allocator_lock._M_acquire_lock(); }
+#define __NODE_ALLOCATOR_UNLOCK \
+        { if (threads) _S_node_allocator_lock._M_release_lock(); }
+#else
+//  Thread-unsafe
+#   define __NODE_ALLOCATOR_LOCK
+#   define __NODE_ALLOCATOR_UNLOCK
+#   define __NODE_ALLOCATOR_THREADS false
+#endif
 
 __STLBEGIN
 #include <memory.h>
@@ -100,10 +117,16 @@ typedef __MallocAllocTemplate MallocAlloc;	//////这里放在#ifdef前边是因�
 typedef MallocAlloc Alloc;
 #else //not define   __USE_ALLOC
 
+
+# ifdef __STL_THREADS
+    static _STL_mutex_lock _S_node_allocator_lock;
+# endif
+
 template <bool threads, int inst>
 class __DefaultAllocTemplate 
 {
 protected:
+
 	enum {_ALIGN = 8};
 	enum {_MAX_BYTES = 128};
 	enum {_NFREELISTS = 16}; // _MAX_BYTES/_ALIGN
@@ -112,6 +135,26 @@ protected:
 	{
 	 return (((bytes) + (size_t) _ALIGN-1) & ~((size_t) _ALIGN - 1)); 
 	}
+
+
+    // It would be nice to use _STL_auto_lock here.  But we
+    // don't need the NULL check.  And we do need a test whether
+    // threads have actually been started.
+    class _Lock;
+    friend class _Lock;
+    class _Lock {
+        public:
+            _Lock() 
+            {
+            	__TRACE("锁保护\n");
+             __NODE_ALLOCATOR_LOCK;
+             }
+            ~_Lock()
+            {
+            	__TRACE("锁撤销\n");
+             __NODE_ALLOCATOR_UNLOCK; 
+         	}
+    };
 
 protected:
 	union _Obj {
@@ -143,7 +186,12 @@ public:
 
 		_Obj* volatile * __my_free_list = _freeList + _FreeListIndex(n);
 
+		//利用RAII（资源获取即初始化原则）进行封装，保证 即使内部抛出异常，依旧执行解锁操作
+#ifdef __STL_THREADS
+      	_Lock __lock_instance;
+#endif
 		_Obj* __result = *__my_free_list;
+	
 		if (__result == 0)
 			ret = _Refill(RoundUp(n));
 		else
@@ -167,8 +215,13 @@ public:
 		{
 			_Obj* volatile*  __my_free_list = _freeList + _FreeListIndex(n);
 			_Obj* q = (_Obj*)p;
+		
+#ifdef __STL_THREADS
+			//进行资源归还自由链表时的锁操作。
+      		_Lock __lock_instance;
+#endif
 			q -> _freeListLink = *__my_free_list;
-		*__my_free_list = q;
+			*__my_free_list = q;
 		}
 	}
 
@@ -241,21 +294,19 @@ protected:
 		_Obj*  volatile * __my_free_list = _freeList + _FreeListIndex(bytesLeft);
 		if(_start_free)
 		{
-			__TRACE("二级空间配置器剩余bytesLeft = %u\n",bytesLeft);
 			if(bytesLeft>0)
 			{
-
 				((_Obj*)_start_free)->_freeListLink=*__my_free_list;
 				*__my_free_list = (_Obj*)_start_free;
 			}
 		}
-
 		size_t bytesToGet = nobjs*n*2+(_heap_size>>4); 
 
-__TRACE("bytesToGet = %u\n",bytesToGet);
+		__TRACE("bytesToGet = %u\n",bytesToGet);
 		//malloc
 		_start_free = (char*)malloc(bytesToGet);
-__TRACE("bytesToGet = %u\n",bytesToGet);
+		char *_start_free3 = (char*)malloc(100);
+		__TRACE("_start_free3 = %p\n",_start_free3);
 
 		if(!_start_free)
 		{
@@ -303,9 +354,8 @@ typename __DefaultAllocTemplate<threads,inst>::_Obj*
 __DefaultAllocTemplate<threads,inst>::_freeList[__DefaultAllocTemplate<threads,inst>::_NFREELISTS]
  = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
+typedef __DefaultAllocTemplate<__NODE_ALLOCATOR_THREADS,0>  Alloc;
 
-
-typedef __DefaultAllocTemplate<0,0>  Alloc;
 #endif
 
 __STLEND

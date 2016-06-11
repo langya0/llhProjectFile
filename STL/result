@@ -1,0 +1,106 @@
+file[Vector.h]line[56]func[InsertAux]::cursize = 0
+file[Alloc.h]line[140]func[Allocate]::二级空间配置器申请n = 12
+file[Alloc.h]line[199]func[_Refill]::二级空间配置器自由链表填充n = 16
+file[Alloc.h]line[252]func[_ChunkAlloc]::bytesToGet = 640
+file[Alloc.h]line[228]func[_ChunkAlloc]::二级空间配置器内存池填充n = 16,nobjs = 20
+file[Construct.h]line[58]func[Construct]::p = 0x9346b58
+file[Vector.h]line[147]func[PushBack]::1
+file[Vector.h]line[56]func[InsertAux]::cursize = 1
+file[Alloc.h]line[140]func[Allocate]::二级空间配置器申请n = 24
+file[Alloc.h]line[199]func[_Refill]::二级空间配置器自由链表填充n = 24
+file[Alloc.h]line[235]func[_ChunkAlloc]::二级空间配置器内存池填充n = 24,nobjs = 13
+file[Construct.h]line[58]func[Construct]::p = 0x9346c90
+file[Construct.h]line[58]func[Construct]::p = 0x9346c94
+file[Alloc.h]line[163]func[Deallocate]::二级空间配置器删除p = 0x9346b58,n = 1
+file[Vector.h]line[147]func[PushBack]::2
+file[Vector.h]line[56]func[InsertAux]::cursize = 2
+file[Alloc.h]line[140]func[Allocate]::二级空间配置器申请n = 48
+file[Alloc.h]line[199]func[_Refill]::二级空间配置器自由链表填充n = 48
+file[Alloc.h]line[252]func[_ChunkAlloc]::bytesToGet = 1960
+file[Alloc.h]line[228]func[_ChunkAlloc]::二级空间配置器内存池填充n = 48,nobjs = 20
+file[Construct.h]line[58]func[Construct]::p = 0x9347060
+file[Construct.h]line[58]func[Construct]::p = 0x9347064
+file[Construct.h]line[58]func[Construct]::p = 0x9347068
+file[Alloc.h]line[163]func[Deallocate]::二级空间配置器删除p = 0x9346c90,n = 2
+file[Vector.h]line[147]func[PushBack]::3
+file[Construct.h]line[58]func[Construct]::p = 0x934706c
+file[Vector.h]line[147]func[PushBack]::4
+file[Vector.h]line[56]func[InsertAux]::cursize = 4
+file[Alloc.h]line[140]func[Allocate]::二级空间配置器申请n = 96
+file[Alloc.h]line[199]func[_Refill]::二级空间配置器自由链表填充n = 96
+file[Alloc.h]line[235]func[_ChunkAlloc]::二级空间配置器内存池填充n = 96,nobjs = 10
+file[Construct.h]line[58]func[Construct]::p = 0x9347420
+file[Construct.h]line[58]func[Construct]::p = 0x9347424
+file[Construct.h]line[58]func[Construct]::p = 0x9347428
+file[Construct.h]line[58]func[Construct]::p = 0x934742c
+file[Construct.h]line[58]func[Construct]::p = 0x9347430
+file[Alloc.h]line[163]func[Deallocate]::二级空间配置器删除p = 0x9347060,n = 4
+file[Vector.h]line[147]func[PushBack]::5
+file[Construct.h]line[58]func[Construct]::p = 0x9347434
+file[Vector.h]line[147]func[PushBack]::1
+file[Construct.h]line[58]func[Construct]::p = 0x9347438
+file[Vector.h]line[147]func[PushBack]::2
+file[Construct.h]line[58]func[Construct]::p = 0x934743c
+file[Vector.h]line[147]func[PushBack]::3
+file[Vector.h]line[56]func[InsertAux]::cursize = 8
+file[Alloc.h]line[140]func[Allocate]::二级空间配置器申请n = 192
+file[Alloc.h]line[20]func[Allocate]::__MallocAllocTemplate to get  n = 192
+file[Alloc.h]line[199]func[_Refill]::二级空间配置器自由链表填充n = 192
+file[Alloc.h]line[252]func[_ChunkAlloc]::bytesToGet = 7842
+file[Alloc.h]line[228]func[_ChunkAlloc]::二级空间配置器内存池填充n = 192,nobjs = 20
+file[Construct.h]line[58]func[Construct]::p = 0x9348418
+file[Construct.h]line[58]func[Construct]::p = 0x934841c
+file[Construct.h]line[58]func[Construct]::p = 0x9348420
+file[Construct.h]line[58]func[Construct]::p = 0x9348424
+file[Construct.h]line[58]func[Construct]::p = 0x9348428
+file[Construct.h]line[58]func[Construct]::p = 0x934842c
+file[Construct.h]line[58]func[Construct]::p = 0x9348430
+file[Construct.h]line[58]func[Construct]::p = 0x9348434
+file[Construct.h]line[58]func[Construct]::p = 0x9348438
+file[Alloc.h]line[163]func[Deallocate]::二级空间配置器删除p = 0x9347420,n = 8
+file[Vector.h]line[147]func[PushBack]::4
+file[Construct.h]line[58]func[Construct]::p = 0x934843c
+file[Vector.h]line[147]func[PushBack]::5
+file[Construct.h]line[58]func[Construct]::p = 0x9348440
+file[Vector.h]line[147]func[PushBack]::1
+file[Construct.h]line[58]func[Construct]::p = 0x9348444
+file[Vector.h]line[147]func[PushBack]::2
+file[Construct.h]line[58]func[Construct]::p = 0x9348448
+file[Vector.h]line[147]func[PushBack]::3
+file[Construct.h]line[58]func[Construct]::p = 0x934844c
+file[Vector.h]line[147]func[PushBack]::4
+file[Construct.h]line[58]func[Construct]::p = 0x9348450
+file[Vector.h]line[147]func[PushBack]::5
+file[Construct.h]line[58]func[Construct]::p = 0x9348454
+file[Vector.h]line[147]func[PushBack]::1
+file[Vector.h]line[56]func[InsertAux]::cursize = 16
+file[Alloc.h]line[140]func[Allocate]::二级空间配置器申请n = 384
+file[Alloc.h]line[20]func[Allocate]::__MallocAllocTemplate to get  n = 384
+file[Alloc.h]line[199]func[_Refill]::二级空间配置器自由链表填充n = 384
+file[Alloc.h]line[235]func[_ChunkAlloc]::二级空间配置器内存池填充n = 384,nobjs = 10
+file[Construct.h]line[58]func[Construct]::p = 0x9349318
+file[Construct.h]line[58]func[Construct]::p = 0x934931c
+file[Construct.h]line[58]func[Construct]::p = 0x9349320
+file[Construct.h]line[58]func[Construct]::p = 0x9349324
+file[Construct.h]line[58]func[Construct]::p = 0x9349328
+file[Construct.h]line[58]func[Construct]::p = 0x934932c
+file[Construct.h]line[58]func[Construct]::p = 0x9349330
+file[Construct.h]line[58]func[Construct]::p = 0x9349334
+file[Construct.h]line[58]func[Construct]::p = 0x9349338
+file[Construct.h]line[58]func[Construct]::p = 0x934933c
+file[Construct.h]line[58]func[Construct]::p = 0x9349340
+file[Construct.h]line[58]func[Construct]::p = 0x9349344
+file[Construct.h]line[58]func[Construct]::p = 0x9349348
+file[Construct.h]line[58]func[Construct]::p = 0x934934c
+file[Construct.h]line[58]func[Construct]::p = 0x9349350
+file[Construct.h]line[58]func[Construct]::p = 0x9349354
+file[Construct.h]line[58]func[Construct]::p = 0x9349358
+file[Alloc.h]line[163]func[Deallocate]::二级空间配置器删除p = 0x9348418,n = 16
+file[Vector.h]line[147]func[PushBack]::2
+file[Construct.h]line[58]func[Construct]::p = 0x934935c
+file[Vector.h]line[147]func[PushBack]::3
+file[Construct.h]line[58]func[Construct]::p = 0x9349360
+file[Vector.h]line[147]func[PushBack]::4
+file[Construct.h]line[58]func[Construct]::p = 0x9349364
+file[Vector.h]line[147]func[PushBack]::5
+0 2 3 4 5 1 2 3 4 5 1 2 3 4 5 1 2 3 4 5 

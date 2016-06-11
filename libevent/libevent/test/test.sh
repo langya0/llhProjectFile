@@ -86,6 +86,3 @@ unset EVENT_NOEVPORT
 export EVENT_NOEVPORT
 echo "EVPORT"
 test
-
-
-

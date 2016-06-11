@@ -46,11 +46,10 @@ public:
   {
     _finish = UninitializedCopy(__x.Begin(), __x.End(), _start); 
   }
-
-
-
-
-
+  ~Vector()
+  {
+    clear();
+  }
 void InsertAux(Iterator position, const ValueType& value)
 {
   __TRACE("cursize = %d\n",Size());
@@ -65,9 +64,9 @@ void InsertAux(Iterator position, const ValueType& value)
 
   else {
     const SizeType oldSize = Size();
-    const SizeType len = oldSize != 0 ? 2 * oldSize : 2;
+    const SizeType len = oldSize != 0 ? 2 * oldSize : 3;
 
-    Iterator newStart = (Pointer)_Alloc::Allocate(len*sizeof(Vector<Tp>));
+    Iterator newStart = (Pointer)_Alloc::Allocate(len*sizeof(ValueType));
     Iterator newFinish = newStart;
     __STL_TRY 
     {
@@ -189,7 +188,7 @@ public:
   void clear()
   {
     Destroy(Begin(),End());
-    _Alloc::Deallocate(_start);
+    _Alloc::Deallocate(_start,Capacity());
   }
   // template <class _InputIterator>
   // vector(_InputIterator first, _InputIterator last)
@@ -211,12 +210,61 @@ void testVector()
   ve.PushBack(1);
   ve.PushBack(2);
   ve.PushBack(3);
-  ve.PushBack(4);
-  ve.PushBack(5);
-
+  // ve.PushBack(4);
+  // ve.PushBack(5);
   stl::Vector<int>::Iterator it = ve.Begin();
   while(it != ve.End())
   {
+    cout << (&(*it)) << "-";
+    cout << *it << " ";
+    ++it;
+  }
+  cout << endl;
+
+ ve.PushBack(1);
+  ve.PushBack(2);
+  ve.PushBack(3);
+it = ve.Begin();
+  while(it != ve.End())
+  {
+    cout << (&(*it)) << "-";
+    cout << *it << " ";
+    ++it;
+  }
+  cout << endl;
+  ve.PushBack(4);
+  ve.PushBack(5);
+ ve.PushBack(1);
+  ve.PushBack(2);
+  ve.PushBack(3);
+it = ve.Begin();
+  while(it != ve.End())
+  {
+    cout << (&(*it)) << "-";
+    cout << *it << " ";
+    ++it;
+  }
+  cout << endl;
+  ve.PushBack(4);
+  ve.PushBack(5);
+ ve.PushBack(1);
+  ve.PushBack(2);
+it = ve.Begin();
+  while(it != ve.End())
+  {
+    cout << (&(*it)) << "-";
+    cout << *it << " ";
+    ++it;
+  }
+  cout << endl;
+  ve.PushBack(3);
+  ve.PushBack(4);
+  ve.PushBack(5);
+
+ it = ve.Begin();
+  while(it != ve.End())
+  {
+    cout << (&(*it)) << "-";
     cout << *it << " ";
     ++it;
   }

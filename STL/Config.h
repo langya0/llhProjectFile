@@ -2,17 +2,18 @@
 
 /////模拟std实现宏方式开始，结束命名空间
 namespace stl{}
-// #define  namespace std {
+
 #define __STLBEGIN namespace stl{
 #define __STLEND }
-
-// namespace  = __STLNAMESPACE;
 
 //for  malloc
 // #define __USE_MALLOC
 
-///for  trace
+// for  trace
 #define __DEBUG
+
+//for threads safe
+#define __STL_THREADS
 
 #ifdef __DEBUG
 #include <stdio.h>
