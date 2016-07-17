@@ -215,7 +215,7 @@ void testVector()
   stl::Vector<int>::Iterator it = ve.Begin();
   while(it != ve.End())
   {
-    cout << (&(*it)) << "-";
+    // cout << (&(*it)) << "-";
     cout << *it << " ";
     ++it;
   }
@@ -227,7 +227,7 @@ void testVector()
 it = ve.Begin();
   while(it != ve.End())
   {
-    cout << (&(*it)) << "-";
+    // cout << (&(*it)) << "-";
     cout << *it << " ";
     ++it;
   }
@@ -240,7 +240,7 @@ it = ve.Begin();
 it = ve.Begin();
   while(it != ve.End())
   {
-    cout << (&(*it)) << "-";
+    // cout << (&(*it)) << "-";
     cout << *it << " ";
     ++it;
   }
@@ -252,7 +252,7 @@ it = ve.Begin();
 it = ve.Begin();
   while(it != ve.End())
   {
-    cout << (&(*it)) << "-";
+    // cout << (&(*it)) << "-";
     cout << *it << " ";
     ++it;
   }
@@ -264,7 +264,7 @@ it = ve.Begin();
  it = ve.Begin();
   while(it != ve.End())
   {
-    cout << (&(*it)) << "-";
+    // cout << (&(*it)) << "-";
     cout << *it << " ";
     ++it;
   }
