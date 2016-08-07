@@ -1,4 +1,6 @@
 #include<iostream>
+#include<stdlib.h>
+#include<stdio.h>
 #include<assert.h>
 #include<stack>
 using namespace std;
@@ -43,8 +45,7 @@ using namespace std;
 //
 void GetMazeMap(int *a,int row,int col)
 {
-	FILE *FOut;
-	fopen_s(&FOut,"MazeMap.txt", "r");
+	FILE *FOut = fopen("MazeMap.txt", "r");
 	
 	assert(FOut);
 
@@ -84,7 +85,7 @@ struct Step
 		return row == s.row&&col == s.col;
 	}
 };
-struct man
+typedef struct man
 {
 	man(Step s, int d)
 	:_cur(s)
@@ -114,7 +115,7 @@ struct man
 		}
 		return man(cur, dir);
 	}
-};
+}man;
 
 stack<man> paths;
 
@@ -279,12 +280,12 @@ void GetMazePathsMin(int *map, int row, int col, man& entry)
 
 }
 
-void main()
+int main()
 {
 	int a[20][20] = {};   
 	::GetMazeMap((int*)a, 20, 20);
 	Step ent = { 2, 0 };
-	man entm = { { 2, 0 }, 1 };
+	struct man entm(ent,1);
 	GetMazePaths((int*)a, 20, 20, ent);
 	//GetMazePathsMin((int*)a, 20, 20, entm);
 	//GetNextAccessPath((int*)a, 10, 10, man(ent, 0));
@@ -292,4 +293,5 @@ void main()
 	::PrintMazeMap((int*)a, 20, 20);
 	::PrintPathStep();
 	system("pause");
+	return 0;
 }
