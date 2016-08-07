@@ -1,15 +1,9 @@
-TARGET=test
-OBJS=proc.o
-INCLUDE=proc.c
-CC=gcc
-CFLAG=-g
+all:test
+SRC=proc.c
 
-$(TARGET):$(OBJS)
-	$(CC) -o $(TARGET) $(OBJS)
+test:$(SRC)
+	gcc -o $@ $^
 
-$(OBJS):$(INCLUDE)
-	$(CC) -o $(OBJS) -c $(INCLUDE) $(CFLAG)
-
+.PHONY:clean
 clean:
-	rm $(TARGET) $(OBJS) -rf
-
+	@rm -f test
